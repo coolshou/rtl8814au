@@ -34,6 +34,11 @@ MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
 MODULE_AUTHOR("Realtek Semiconductor Corp.");
 MODULE_VERSION(DRIVERVERSION);
 
+#define BUILDNO	"20170105"
+char* BuildNo = BUILDNO;
+module_param(BuildNo, charp, 0644);
+MODULE_PARM_DESC(BuildNo, BUILDNO);
+
 /* module param defaults */
 int rtw_chip_version = 0x00;
 int rtw_rfintfs = HWPI;
