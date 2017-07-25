@@ -1207,7 +1207,7 @@ odm_RxPhyStatusJaguarSeries_Parsing(
 {
 	u1Byte					i, Max_spatial_stream;
 	s1Byte					rx_pwr[4], rx_pwr_all = 0;
-	u1Byte					EVM, EVMdbm, PWDB_ALL = 0, PWDB_ALL_BT;
+	u1Byte					EVM = 0, EVMdbm, PWDB_ALL = 0, PWDB_ALL_BT;
 	u1Byte					RSSI, avg_rssi = 0, best_rssi = 0, second_rssi = 0;
 	u1Byte					isCCKrate = 0;	
 	u1Byte					rf_rx_num = 0;
