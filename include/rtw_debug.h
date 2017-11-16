@@ -228,7 +228,7 @@ extern void rtl871x_cedbg(const char *fmt, ...);
 	do {\
 		if (sel == RTW_DBGDUMP)\
 			_DBG_871X_LEVEL(_drv_always_, fmt, ##arg); \
-		else {\
+		else {                                                         \
 			_seqdump(sel, fmt, ##arg);                                 \
 		}                                                              \
 	}while(0)
@@ -238,7 +238,7 @@ extern void rtl871x_cedbg(const char *fmt, ...);
 	do {\
 		if (sel == RTW_DBGDUMP)\
 			DBG_871X_LEVEL(_drv_always_, fmt, ##arg); \
-		else {\
+		else {                                                         \
 			_seqdump(sel, fmt, ##arg) /*rtw_warn_on(1)*/;              \
 		}                                                              \
 	}while(0)
