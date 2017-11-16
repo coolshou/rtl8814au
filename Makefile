@@ -23,6 +23,16 @@ EXTRA_LDFLAGS += --strip-debug
 
 CONFIG_AUTOCFG_CP = n
 
+###gcc 4.9
+DATE_FMT = %Y-%m-%d
+TIME_FMT = %H-%M-%S
+BUILD_DATE ?= $(shell date "+$(DATE_FMT)")
+BUILD_TIME ?= $(shell date "+$(TIME_FMT)")
+EXTRA_CFLAGS += -DBUILD_DATE=\"$(BUILD_DATE)\"
+EXTRA_CFLAGS += -DBUILD_TIME=\"$(BUILD_TIME)\"
+#$(shell echo "$(BUILD_DATE)")
+#$(shell echo "$(BUILD_TIME)")
+
 ########################## WIFI IC ############################
 CONFIG_MULTIDRV = n
 CONFIG_RTL8188E = n

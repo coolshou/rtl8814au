@@ -65,10 +65,22 @@ u32 GlobalDebugLevel = _drv_err_;
 #define TDLS_DBG_INFO_SPACE_BTWN_ITEM_AND_VALUE	41
 #endif
 
+//jimmy, fix gcc 4.9 error
+#define GCC_VERSION (__GNUC__ * 10000 \
+                               + __GNUC_MINOR__ * 100 \
+                               + __GNUC_PATCHLEVEL__)
+
 void dump_drv_version(void *sel)
 {
 	DBG_871X_SEL_NL(sel, "%s %s\n", DRV_NAME, DRIVERVERSION);
-	//DBG_871X_SEL_NL(sel, "build time: %s %s\n", __DATE__, __TIME__);
+	//jimmy, fix gcc 4.9 error
+	#if GCC_VERSION < 40900
+	DBG_871X_SEL_NL(sel, "build time: %s %s\n", __DATE__, __TIME__);
+	#else
+	#ifdef BUILD_DATE
+	DBG_871X_SEL_NL(sel, "build time: %s %s\n", BUILD_DATE, BUILD_TIME);
+	#endif //BUILD_DATE
+	#endif
 }
 
 void dump_drv_cfg(void *sel)
