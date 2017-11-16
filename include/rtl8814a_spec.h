@@ -67,6 +67,11 @@
 #define REG_HSIMR_8814A					0x0058
 #define REG_HSISR_8814A					0x005c
 #define REG_GPIO_EXT_CTRL_8814A			0x0060
+//jimmy, for DWA-192 LED control
+#define GPIO_IN_8814A			(REG_GPIO_EXT_CTRL_8814A)	// GPIO pins input value
+#define GPIO_OUT_8814A			(REG_GPIO_EXT_CTRL_8814A+1)	// GPIO pins output value
+#define GPIO_IO_SEL_8814A		(REG_GPIO_EXT_CTRL_8814A+2)	// GPIO pins config as gpo/gpi
+
 #define REG_GPIO_STATUS_8814A			0x006C
 #define REG_SDIO_CTRL_8814A				0x0070
 #define REG_HCI_OPT_CTRL_8814A			0x0074

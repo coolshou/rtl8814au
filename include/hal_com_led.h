@@ -349,6 +349,7 @@ struct led_priv{
 	void (*SwLedOn)(_adapter *padapter, PLED_DATA pLed);
 	void (*SwLedOff)(_adapter *padapter, PLED_DATA pLed);
 	/* add for led controll */
+	BOOLEAN				bHWLedON; //jimmy, for HW LED switch setting, default: true = ON, false = OFF
 };
 
 #ifdef CONFIG_SW_LED

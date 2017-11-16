@@ -36,6 +36,69 @@
 // LED_819xUsb routines. 
 //================================================================================
 
+//jimmy, for DWA-192 LED setting
+/* 
+//0x60 input value
+(GPIO15) HW LED SW2 : 0x60 BIT7
+* NOTE: Press Time can not over 1 sec? => double trigger?
+* NOTE: detect not sensive enough? => where to place Get_DWA192_HW_LED_SW?
+* 
+* TODO: wake up from sleep => LED not working!! "rtw_resume" did not init LED
+* 	rtw_resume -> rtw_resume_process -> rtw_resume_common 
+* 	in usb_intf.c
+* 		rtw_drv_init -> 
+*   in os_intf.c
+* 		rtw_drv_add_vir_if -> rtw_init_drv_sw ->rtw_hal_sw_led_init
+* 
+(GPIO11) HW WPS SW1 : 0x60 BIT3   =>> see dm_CheckPbcGPIO in rtl8814a_dm.c
+*/
+static
+void Get_DWA192_HW_LED_SW(PADAPTER padapter) 
+{
+	struct led_priv *pledpriv = &(padapter->ledpriv);
+	u8 HWLedSW;
+	//jimmy
+	HWLedSW = rtw_read8(padapter, GPIO_IN_8814A); //0x60 input value
+	if (HWLedSW & (1 << 7) ) { //BIT7
+		DBG_871X("Detect HW Led SW Press (%s: %d) \n", __FUNCTION__, HWLedSW);
+		pledpriv->bHWLedON = !pledpriv->bHWLedON;
+	}
+}
+/* LED layout
+    12
+9         3
+     6
+   USB
+*/
+
+//0x61 out value
+//(GPIO8)  BIT0: 6 o'clock,
+//(GPIO9)  BIT1: 9 o'clock, DO NOT USE THIS, must use REG_LEDCFG1_8814A first
+//(GPIO13) BIT5: 12 o'clock
+//(GPIO14) BIT6: 3 o'clock
+
+//LED: GPIO13: D1, GPIO14: D2, GPIO8: D5
+static
+void Set_DWA192_GPIO_LED(PADAPTER padapter, BOOLEAN bON) 
+{
+	struct led_priv *pledpriv = &(padapter->ledpriv);
+    u8 LedGpioCfg;
+    u8 LedCfg;
+
+    LedGpioCfg = rtw_read8(padapter, GPIO_OUT_8814A);
+    if ((bON) && pledpriv->bHWLedON) {
+		LedCfg = BIT5;
+        LedGpioCfg &=~ (BIT0|BIT5|BIT6);
+    } else {
+		LedCfg = BIT5|BIT3;
+        LedGpioCfg |= (BIT0|BIT5|BIT6);
+    }
+	//This LED setting must be exist
+	rtw_write8(padapter, REG_LEDCFG1_8814A, LedCfg); //0x4D, LED 9 o'clock
+    rtw_write8(padapter, GPIO_IO_SEL_8814A, (BIT0|BIT5|BIT6)); // set as gpo
+    rtw_write8(padapter, GPIO_OUT_8814A, LedGpioCfg); //set gpio out value
+}
+
 //
 //	Description:
 //		Turn on LED according to LedPin specified.
@@ -51,6 +114,8 @@ SwLedOn_8814AU(
 
 	if (RTW_CANNOT_RUN(padapter))
 		return;
+	//jimmy
+	Get_DWA192_HW_LED_SW(padapter);
 
 	LedGpioCfg = rtw_read32(padapter , REG_GPIO_PIN_CTRL_2); /* 0x60. In 8814AU, the name should be REG_GPIO_EXT_CTRL */
 	switch (pLed->LedPin) {
@@ -82,6 +147,9 @@ SwLedOff_8814AU(
 
 	if (RTW_CANNOT_RUN(padapter))
 		return;
+	//jimmy
+	Get_DWA192_HW_LED_SW(padapter);
+
 	LedGpioCfg = rtw_read32(padapter , REG_GPIO_PIN_CTRL_2); /* 0x60. In 8814AU, the name should be REG_GPIO_EXT_CTRL */
 	switch (pLed->LedPin) {
 	case LED_PIN_LED0:
@@ -120,7 +188,9 @@ rtl8814au_InitSwLeds(
 
 	pledpriv->SwLedOn = SwLedOn_8814AU;
 	pledpriv->SwLedOff = SwLedOff_8814AU;
-
+	//jimmy
+	pledpriv->bHWLedON = 1;
+	
 	InitLed(padapter, &(pledpriv->SwLed0), LED_PIN_LED0);
 
 	InitLed(padapter, &(pledpriv->SwLed1), LED_PIN_LED1);
