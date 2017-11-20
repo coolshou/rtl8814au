@@ -34,7 +34,8 @@ MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
 MODULE_AUTHOR("Realtek Semiconductor Corp.");
 MODULE_VERSION(DRIVERVERSION);
 
-#define BUILDNO	"20170105"
+//jimmy
+#define BUILDNO	"20171120"
 char* BuildNo = BUILDNO;
 module_param(BuildNo, charp, 0644);
 MODULE_PARM_DESC(BuildNo, BUILDNO);
