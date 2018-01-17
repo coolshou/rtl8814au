@@ -14,7 +14,7 @@ static struct country_code_to_enum_rd allCountries[] = {
 	{COUNTRY_CODE_USER, "RD"},
 };
 
-/* 
+/*
  * REG_RULE(freq start, freq end, bandwidth, max gain, eirp, reg_flags)
  */
 
@@ -302,7 +302,7 @@ static void _rtw_reg_apply_radar_flags(struct wiphy *wiphy)
 
 static void _rtw_reg_apply_flags(struct wiphy *wiphy)
 {
-#if 1				// by channel plan
+#ifndef CONFIG_DISABLE_REGD_C				// by channel plan
 	_adapter *padapter = wiphy_to_adapter(wiphy);
 	u8 channel_plan = padapter->mlmepriv.ChannelPlan;
 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
@@ -500,7 +500,7 @@ static void _rtw_regd_init_wiphy(struct rtw_regulatory *reg, struct wiphy *wiphy
 	wiphy->regulatory_flags &= ~REGULATORY_STRICT_REG;
 	wiphy->regulatory_flags &= ~REGULATORY_DISABLE_BEACON_HINTS;
 	#endif
-	
+
 	regd = _rtw_regdomain_select(reg);
 	wiphy_apply_custom_regulatory(wiphy, regd);
 

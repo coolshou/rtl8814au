@@ -85,7 +85,8 @@
 
 #define CONFIG_RF_GAIN_OFFSET
 
-#define CONFIG_DFS	1
+//#define CONFIG_DFS	1
+#define CONFIG_DFS	0 //jimmy
 
  //#define CONFIG_SUPPORT_USB_INT
  #ifdef	CONFIG_SUPPORT_USB_INT
@@ -93,7 +94,7 @@
 #endif
 
 //#ifndef CONFIG_MP_INCLUDED
-	#define CONFIG_IPS	1
+//	#define CONFIG_IPS	1 //jimmy, do not always try to enter power save mode when no connected!!
 	#ifdef CONFIG_IPS
 	//#define CONFIG_IPS_LEVEL_2	1 //enable this to set default IPS mode to IPS_LEVEL_2
 	#define CONFIG_IPS_CHECK_IN_WD // Do IPS Check in WatchDog.
@@ -341,10 +342,12 @@
 
 #define CONFIG_ATTEMPT_TO_FIX_AP_BEACON_ERROR
 
+//jimmy, support all 2.4G/5G channel
+#define CONFIG_DISABLE_REGD_C
 /*
  * Debug Related Config
  */
-#define DBG	0
+#define DBG	1
 
 //#define CONFIG_DEBUG /* DBG_871X, etc... */
 //#define CONFIG_DEBUG_RTL871X /* RT_TRACE, RT_PRINT_DATA, _func_enter_, _func_exit_ */
