@@ -35,7 +35,7 @@ MODULE_AUTHOR("Realtek Semiconductor Corp.");
 MODULE_VERSION(DRIVERVERSION);
 
 //jimmy
-#define BUILDNO	"20171120"
+#define BUILDNO	"20180117"
 char* BuildNo = BUILDNO;
 module_param(BuildNo, charp, 0644);
 MODULE_PARM_DESC(BuildNo, BUILDNO);
