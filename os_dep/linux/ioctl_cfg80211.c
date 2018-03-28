@@ -794,7 +794,7 @@ check_bss:
 		struct ieee80211_channel *notify_channel;
 		u32 freq;
 		u16 channel = cur_network->network.Configuration.DSConfig;
-		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0))
+		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0))//jimmy
 		struct cfg80211_roam_info roam_info = {};
 		#endif
 
@@ -803,7 +803,7 @@ check_bss:
 		#endif
 
 		DBG_871X(FUNC_ADPT_FMT" call cfg80211_roamed\n", FUNC_ADPT_ARG(padapter));
-		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0))
+		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0))//jimmy
 		roam_info.channel = notify_channel;
 		roam_info.bssid = cur_network->network.MacAddress;
 		roam_info.req_ie =
@@ -1905,7 +1905,7 @@ enum nl80211_iftype {
 static int cfg80211_rtw_change_iface(struct wiphy *wiphy,
 				     struct net_device *ndev,
 				     enum nl80211_iftype type,
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 12, 0))
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 12, 0))//jimmy
 				     u32 *flags,
 #endif
 				     struct vif_params *params)
@@ -4065,7 +4065,7 @@ static int
 		unsigned char name_assign_type,
 	#endif
 		enum nl80211_iftype type,
-	#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 12, 0))
+	#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 12, 0))//jimmy
 		 u32 *flags,
 	#endif
 		struct vif_params *params)
@@ -6464,7 +6464,7 @@ static void rtw_cfg80211_preinit_wiphy(_adapter *adapter, struct wiphy *wiphy)
 #endif
 
 #if defined(CONFIG_PM) && (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 0, 0))
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0))//jimmy
 	wiphy->max_sched_scan_reqs = 1;
 #else
 	wiphy->flags |= WIPHY_FLAG_SUPPORTS_SCHED_SCAN;
