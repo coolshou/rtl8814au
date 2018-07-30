@@ -2481,7 +2481,6 @@ MptToMgntRate(
 }
 
 
-
 u8 HwRateToMPTRate(u8 rate)
 {
 	u8	ret_rate = MGN_1M;

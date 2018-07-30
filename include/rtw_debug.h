@@ -228,9 +228,9 @@ extern void rtl871x_cedbg(const char *fmt, ...);
 	do {\
 		if (sel == RTW_DBGDUMP)\
 			_DBG_871X_LEVEL(_drv_always_, fmt, ##arg); \
-		else {                                                         \
-			_seqdump(sel, fmt, ##arg);                                 \
-		}                                                              \
+		else { \
+			_seqdump(sel, fmt, ##arg); \
+		} \
 	}while(0)
 
 /* dump message to selected 'stream' with driver-defined prefix */
@@ -238,9 +238,9 @@ extern void rtl871x_cedbg(const char *fmt, ...);
 	do {\
 		if (sel == RTW_DBGDUMP)\
 			DBG_871X_LEVEL(_drv_always_, fmt, ##arg); \
-		else {                                                         \
-			_seqdump(sel, fmt, ##arg) /*rtw_warn_on(1)*/;              \
-		}                                                              \
+		else { \
+			_seqdump(sel, fmt, ##arg) /*rtw_warn_on(1)*/; \
+		} \
 	}while(0)
 
 #endif /* defined(_seqdump) */
