@@ -487,6 +487,8 @@ void hal_mpt_SetDataRate(PADAPTER pAdapter)
 	PMPT_CONTEXT		pMptCtx = &(pAdapter->mppriv.MptCtx);
 	u32 DataRate;
 
+	DataRate = MptToMgntRate(pMptCtx->MptRateIndex);
+
 	hal_mpt_SwitchRfSetting(pAdapter);
 
 	hal_mpt_CCKTxPowerAdjust(pAdapter, pHalData->bCCKinCH14);

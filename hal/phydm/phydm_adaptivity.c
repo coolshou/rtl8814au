@@ -594,7 +594,7 @@ Phydm_AdaptivityInit(
 			pDM_Odm->TH_L2H_ini = pDM_Odm->Adapter->registrypriv.adaptivity_th_l2h_ini;
 		else
 #endif
-			pDM_Odm->TH_L2H_ini = 0xf5;
+			phydm_set_l2h_th_ini(pDM_Odm);
 	} else
 			pDM_Odm->TH_L2H_ini = 0xa;
 
@@ -671,6 +671,9 @@ Phydm_AdaptivityInit(
 	if(!(pDM_Odm->SupportICType & (ODM_IC_11AC_GAIN_IDX_EDCCA | ODM_IC_11N_GAIN_IDX_EDCCA)))
 		Phydm_SearchPwdBLowerBound(pDM_Odm);
 #endif
+
+	/*forgetting factor setting*/
+	phydm_set_forgetting_factor(pDM_Odm);
 
 /*we need to consider PwdB upper bound for 8814 later IC*/
 	Adaptivity->AdajustIGILevel = (u1Byte)((pDM_Odm->TH_L2H_ini + IGItarget) - PwdBUpperBound + DFIRloss);	/*IGI = L2H - PwdB - DFIRloss*/
@@ -941,3 +944,32 @@ phydm_setEDCCAThresholdAPI(
 	}
 
 }
+
+void
+phydm_set_l2h_th_ini(
+	IN 	PVOID	 	pDM_VOID
+)
+{
+	PDM_ODM_T		pDM_Odm = (PDM_ODM_T)pDM_VOID;
+
+	if (pDM_Odm->SupportICType & ODM_IC_11AC_SERIES) {
+		if (pDM_Odm->SupportICType & (ODM_RTL8822B | ODM_RTL8814A))
+			pDM_Odm->TH_L2H_ini = 0xf2;
+		else
+			pDM_Odm->TH_L2H_ini = 0xef;
+	} else
+		pDM_Odm->TH_L2H_ini = 0xf5;
+}
+
+void
+phydm_set_forgetting_factor(
+	IN 	PVOID	 	pDM_VOID
+)
+{
+	PDM_ODM_T		pDM_Odm = (PDM_ODM_T)pDM_VOID;
+
+	if (pDM_Odm->SupportICType & (ODM_RTL8822B | ODM_RTL8814A))
+		ODM_SetBBReg(pDM_Odm, 0x8a0, BIT(1) | BIT(0), 0);
+}
+
+

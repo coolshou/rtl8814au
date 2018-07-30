@@ -22,7 +22,7 @@
 #ifndef	__PHYDMADAPTIVITY_H__
 #define    __PHYDMADAPTIVITY_H__
 
-#define ADAPTIVITY_VERSION	"9.0"
+#define ADAPTIVITY_VERSION	"9.0" /* th_l2h_ini setting for 5G: v2.1.0 */
 
 #define PwdBUpperBound	7
 #define DFIRloss	5
@@ -148,6 +148,16 @@ VOID
 phydm_setEDCCAThresholdAPI(
 	IN	PVOID	pDM_VOID,
 	IN	u1Byte	IGI
+);
+
+void
+phydm_set_l2h_th_ini(
+	IN 	PVOID	 	pDM_VOID
+);
+
+void
+phydm_set_forgetting_factor(
+	IN 	PVOID	 	pDM_VOID
 );
 
 #if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
