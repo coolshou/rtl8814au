@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
- *                                        
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as
  * published by the Free Software Foundation.
@@ -33,27 +33,27 @@
 
 
 //================================================================================
-// LED_819xUsb routines. 
+// LED_819xUsb routines.
 //================================================================================
 
 //jimmy, for DWA-192 LED setting
-/* 
+/*
 //0x60 input value
 (GPIO15) HW LED SW2 : 0x60 BIT7
 * NOTE: Press Time can not over 1 sec? => double trigger?
 * NOTE: detect not sensive enough? => where to place Get_DWA192_HW_LED_SW?
-* 
+*
 * TODO: wake up from sleep => LED not working!! "rtw_resume" did not init LED
-* 	rtw_resume -> rtw_resume_process -> rtw_resume_common 
+* 	rtw_resume -> rtw_resume_process -> rtw_resume_common
 * 	in usb_intf.c
-* 		rtw_drv_init -> 
+* 		rtw_drv_init ->
 *   in os_intf.c
 * 		rtw_drv_add_vir_if -> rtw_init_drv_sw ->rtw_hal_sw_led_init
-* 
+*
 (GPIO11) HW WPS SW1 : 0x60 BIT3   =>> see dm_CheckPbcGPIO in rtl8814a_dm.c
 */
 static
-void Get_DWA192_HW_LED_SW(PADAPTER padapter) 
+void Get_DWA192_HW_LED_SW(PADAPTER padapter)
 {
 	struct led_priv *pledpriv = &(padapter->ledpriv);
 	u8 HWLedSW;
@@ -79,7 +79,7 @@ void Get_DWA192_HW_LED_SW(PADAPTER padapter)
 
 //LED: GPIO13: D1, GPIO14: D2, GPIO8: D5
 static
-void Set_DWA192_GPIO_LED(PADAPTER padapter, BOOLEAN bON) 
+void Set_DWA192_GPIO_LED(PADAPTER padapter, BOOLEAN bON)
 {
 	struct led_priv *pledpriv = &(padapter->ledpriv);
     u8 LedGpioCfg;
@@ -105,7 +105,7 @@ void Set_DWA192_GPIO_LED(PADAPTER padapter, BOOLEAN bON)
 //
 static void
 SwLedOn_8814AU(
-	PADAPTER		padapter, 
+	PADAPTER		padapter,
 	PLED_USB		pLed
 )
 {
@@ -138,7 +138,7 @@ SwLedOn_8814AU(
 //
 static void
 SwLedOff_8814AU(
-	PADAPTER		padapter, 
+	PADAPTER		padapter,
 	PLED_USB		pLed
 )
 {
@@ -190,7 +190,7 @@ rtl8814au_InitSwLeds(
 	pledpriv->SwLedOff = SwLedOff_8814AU;
 	//jimmy
 	pledpriv->bHWLedON = 1;
-	
+
 	InitLed(padapter, &(pledpriv->SwLed0), LED_PIN_LED0);
 
 	InitLed(padapter, &(pledpriv->SwLed1), LED_PIN_LED1);
