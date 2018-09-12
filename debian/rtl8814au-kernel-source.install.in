@@ -1,0 +1,13 @@
+core/*		usr/src/#DRIVER_NAME#-#VERSION#/core/
+hal/*		usr/src/#DRIVER_NAME#-#VERSION#/hal/
+include/*		usr/src/#DRIVER_NAME#-#VERSION#/include/
+os_dep/*		usr/src/#DRIVER_NAME#-#VERSION#/os_dep/
+platform/*		usr/src/#DRIVER_NAME#-#VERSION#/platform/
+clean		usr/src/#DRIVER_NAME#-#VERSION#/
+ifcfg-wlan0		usr/src/#DRIVER_NAME#-#VERSION#/
+Kconfig	usr/src/#DRIVER_NAME#-#VERSION#/
+Makefile  		usr/src/#DRIVER_NAME#-#VERSION#/
+README.md		usr/src/#DRIVER_NAME#-#VERSION#/
+runwpa		usr/src/#DRIVER_NAME#-#VERSION#/
+wlan0dhcp		usr/src/#DRIVER_NAME#-#VERSION#/
+debian/dkms.conf	usr/src/#DRIVER_NAME#-#VERSION#/
