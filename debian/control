@@ -1,0 +1,16 @@
+Source: rtl8814au
+Section: kernel
+Priority: optional
+Maintainer: jimmy <jimmy@jimmy-alpha>
+Build-Depends: debhelper (>=9), dh-python, dh-modaliases, gcc-4.9 | gcc-5 | gcc (>= 5.3.1), dkms (>= 2.1.1.1)
+Standards-Version: 3.9.6
+Homepage: https://github.com/coolshou/rtl8814au
+Vcs-Git: https://github.com/coolshou/rtl8814au.git
+Vcs-Browser: https://github.com/coolshou/rtl8814au
+
+Package: rtl8814au-kernel-source
+Architecture: all
+Depends: ${shlibs:Depends}, dkms, linux-libc-dev, libc6-dev
+XB-Modaliases: ${modaliases}
+Description: Realtek rtl8814au Linux driver source
+ This package contains Realtek rtl8814au Linux driver source.
