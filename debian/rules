@@ -5,53 +5,24 @@
 
 DRIVER_NAME := rtl8814au
 VERSION := $(shell dpkg-parsechangelog | grep '^Version:' | cut -d' ' -f2 | cut -d- -f1 | cut -d\: -f2)
-PKG_kernel_src  := rtl8814au-kernel-source
-ARCH := $(shell dpkg --print-architecture)
-ifeq ($(ARCH),amd64)
-ARCH_SUFFIX=x86_64
-else
-ARCH_SUFFIX=i386
-endif
+#PKG_kernel_src  := rtl8814au-kernel-source
+#ARCH := $(shell dpkg --print-architecture)
+#ifeq ($(ARCH),amd64)
+#ARCH_SUFFIX=x86_64
+#else
+#ARCH_SUFFIX=i386
+#endif
 
-# see FEATURE AREAS in dpkg-buildflags(1)
-#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
-
-# see ENVIRONMENT in dpkg-buildflags(1)
-# package maintainers to append CFLAGS
-#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
-# package maintainers to append LDFLAGS
-#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 
 %:
-	dh "$@" --with python2 --with modaliases
+	dh "$@" --with dkms,modaliases
 
-# we don't actually build/clean the source here, it's dkms
-override_dh_auto_clean:
+override_dh_install:
+	dh_install core hal include Kconfig Makefile os_dep platform usr/src/rtl8814au-$(VERSION)/
+	find debian/rtl8814au-dkms/usr/src/rtl8814au-$(VERSION) -type f -exec chmod 644 {} \;
 
-override_dh_auto_build:
+override_dh_dkms:
+	dh_dkms -V $(VERSION)
 
-override_dh_auto_install:
-	# just create .install files from templates.
-	for i in dkms.conf \
-		$(PKG_kernel_src).install \
-		$(PKG_kernel_src).postinst \
-		$(PKG_kernel_src).prerm; do \
-			sed \
-			-e "s|#DRIVER_NAME#|$(DRIVER_NAME)|" \
-			-e "s|#VERSION#|$(VERSION)|" \
-			-e "s|#ARCH#|$(ARCH_SUFFIX)|" \
-			debian/$$i.in > debian/$$i; \
-	done
-
-override_dh_clean:
-	dh_clean
-
-	for i in dkms.conf \
-		$(PKG_kernel_src).install \
-		$(PKG_kernel_src).postinst \
-		$(PKG_kernel_src).prerm \
-		$(PKG_kernel_src); do \
-			rm -f debian/$$i; \
-	done
-	rm -rf $(CURDIR)/$(PKG_kernel_src)
+override_dh_auto_configure override_dh_auto_build override_dh_auto_test override_dh_auto_install override_dh_auto_c:

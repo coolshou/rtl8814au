@@ -2,15 +2,19 @@ Source: rtl8814au
 Section: kernel
 Priority: optional
 Maintainer: jimmy <jimmy@jimmy-alpha>
-Build-Depends: debhelper (>=9), dh-python, dh-modaliases, gcc-4.9 | gcc-5 | gcc (>= 5.3.1), dkms (>= 2.1.1.1)
+Build-Depends: debhelper (>=9), dkms, dh-modaliases
 Standards-Version: 3.9.6
-Homepage: https://github.com/coolshou/rtl8814au
+Homepage: http://www.realtek.com.tw/
 Vcs-Git: https://github.com/coolshou/rtl8814au.git
 Vcs-Browser: https://github.com/coolshou/rtl8814au
 
-Package: rtl8814au-kernel-source
+Package: rtl8814au-dkms
 Architecture: all
-Depends: ${shlibs:Depends}, dkms, linux-libc-dev, libc6-dev
+Depends: ${misc:Depends}, dkms, linux-libc-dev, libc6-dev
 XB-Modaliases: ${modaliases}
-Description: Realtek rtl8814au Linux driver source
- This package contains Realtek rtl8814au Linux driver source.
+Description: dkms source for the rtl8814au network driver
+ rtl8814au is the Linux device driver released for the RealTek RTL8814AU WiFi
+ controllers with USB interface.
+ .
+ This package provides the dkms source code for the rtl8814au kernel module.
+ Kernel source or headers are required to compile these modules.

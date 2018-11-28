@@ -1,9 +1,0 @@
-PACKAGE_NAME="#DRIVER_NAME#"
-PACKAGE_VERSION="#VERSION#"
-CLEAN="make clean"
-
-BUILT_MODULE_NAME[0]="8814au"
-
-MAKE[0]="make -C $kernel_source_dir M=$dkms_tree/$PACKAGE_NAME/$PACKAGE_VERSION/build KVER=$kernelver modules"
-DEST_MODULE_LOCATION[0]="/updates/dkms"
-AUTOINSTALL="yes"
