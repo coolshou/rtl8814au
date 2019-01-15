@@ -1,3 +1,9 @@
+rtl8814au (4.3.21.1-24835.20190115) unstable; urgency=medium
+
+  * fix get_monotonic_boottime to ktime_get_boottime_ts64 when kernel >= 4.15
+
+ -- jimmy <jimmy@jimmy-alpha>  Tue, 15 Jan 2019 09:22:19 +0800
+
 rtl8814au (4.3.21.1-24835.20181203) unstable; urgency=medium
 
   * Initial release
