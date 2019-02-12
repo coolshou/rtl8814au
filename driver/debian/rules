@@ -5,15 +5,9 @@
 
 DRIVER_NAME := rtl8814au
 VERSION := $(shell dpkg-parsechangelog | grep '^Version:' | cut -d' ' -f2 | cut -d- -f1 | cut -d\: -f2)
-#PKG_kernel_src  := rtl8814au-kernel-source
-#ARCH := $(shell dpkg --print-architecture)
-#ifeq ($(ARCH),amd64)
-#ARCH_SUFFIX=x86_64
-#else
-#ARCH_SUFFIX=i386
-#endif
 
-
+BDATE=$(shell date +%Y%m%d)
+GDATE=${BDATE}_$(shell git rev-parse HEAD)
 
 %:
 	dh "$@" --with dkms,modaliases
@@ -25,4 +19,8 @@ override_dh_install:
 override_dh_dkms:
 	dh_dkms -V $(VERSION)
 
-override_dh_auto_configure override_dh_auto_build override_dh_auto_test override_dh_auto_install override_dh_auto_c:
+override_dh_auto_configure:
+	$(shell sed -i 's/^#define BUILDNO.*/#define BUILDNO "${GDATE}"/' ./os_dep/linux/os_intfs.c)
+	
+	
+override_dh_auto_build override_dh_auto_test override_dh_auto_install override_dh_auto_c:
