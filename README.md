@@ -1,5 +1,5 @@
 # rtl8814au
-Drivers for the rtl8814au chipset for wireless adapters (D-Link DWA-192 rev A1) 
+Drivers for the rtl8814au chipset for wireless adapters (D-Link DWA-192 rev A1)
 
 # build & install
 ```
@@ -9,11 +9,13 @@ make
 sudo make install
 ```
 
-# debian dkms package (require dpkg-dev, dkms)
+# debian dkms package (require dpkg-dev, dkms, dh-modaliases)
 ```
+sudo apt install  dpkg-dev dkms dh-modaliases
 cd driver
 dpkg-buildpackage -b
-
+cd ..
+dpkg -i rtl8814au-dkms_4.3.21.1-24835.20190115_all.deb
 ```
 
 # USB2.0/3.0 mode switch
