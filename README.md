@@ -11,7 +11,7 @@ sudo make install
 
 # debian dkms package (require dpkg-dev, dkms, dh-modaliases)
 ```
-sudo apt install  dpkg-dev dkms dh-modaliases
+sudo apt install  debhelper dpkg-dev dkms dh-modaliases
 cd driver
 dpkg-buildpackage -b
 cd ..
