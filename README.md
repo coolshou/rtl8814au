@@ -13,7 +13,7 @@ sudo make install
 ```
 sudo apt install  debhelper dpkg-dev dkms dh-modaliases
 cd driver
-dpkg-buildpackage -b
+dpkg-buildpackage -b --no-sign
 cd ..
 dpkg -i rtl8814au-dkms_4.3.21.1-24835.20190115_all.deb
 ```
