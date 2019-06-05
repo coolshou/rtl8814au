@@ -1,3 +1,9 @@
+rtl8814au (4.3.21.1-24835.20190605) unstable; urgency=medium
+
+  * Fix compilation for Linux 5.1, replace get_ds() with KERNEL_DS
+
+ -- jimmy <jimmy@jimmy-alpha>  Wed, 05 Jun 2019 13:34:16 +0800
+
 rtl8814au (4.3.21.1-24835.20190213) unstable; urgency=medium
 
   * fix Linux 5.0: access_ok() drops 'type' parameter
