@@ -35,7 +35,7 @@ MODULE_AUTHOR("Realtek Semiconductor Corp.");
 MODULE_VERSION(DRIVERVERSION);
 
 //jimmy
-#define BUILDNO	"20181203"
+#define BUILDNO "20190816_aed70de9fecfc8e40552cc4caab6cdd2daf0e849"
 char* BuildNo = BUILDNO;
 module_param(BuildNo, charp, 0644);
 MODULE_PARM_DESC(BuildNo, BUILDNO);
@@ -800,7 +800,7 @@ static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb
   #else
     , struct net_device *sb_dev
   #endif
-  #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
+  #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0) & LINUX_VERSION_CODE < KERNEL_VERSION(5, 2, 0)
 	  , select_queue_fallback_t fallback
   #endif
 #endif
