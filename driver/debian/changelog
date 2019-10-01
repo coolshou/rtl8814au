@@ -1,6 +1,7 @@
-rtl8814au (5.8.5-34085.20190816) unstable; urgency=medium
+rtl8814au (5.8.5-34085.20190824) unstable; urgency=medium
 
   * import v5.8.5_34085.20190624
+  * add kmodsign
 
  -- jimmy <jimmy@jimmy-alpha>  Fri, 16 Aug 2019 10:13:15 +0800
 
