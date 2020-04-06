@@ -1,3 +1,9 @@
+rtl8814au (5.8.5-34085.20200406) unstable; urgency=medium
+
+  * Fix kernel 5.6, proc_create_data takes "proc_ops" and not "file_operations" now
+
+ -- jimmy <jimmy@jimmy-alpha>  Thu, 01 Dec 2016 13:09:37 +0800
+
 rtl8814au (5.8.5-34085.20190824) unstable; urgency=medium
 
   * import v5.8.5_34085.20190624
