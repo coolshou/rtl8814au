@@ -1,3 +1,9 @@
+rtl8814au (5.8.5-34085.20210111) UNRELEASED; urgency=medium
+
+  * fix kernel 5.8
+
+ -- coolshou <coolshou2060@gmail.com>  Mon, 11 Jan 2021 10:20:50 +0800
+
 rtl8814au (5.8.5-34085.20200406) unstable; urgency=medium
 
   * Fix kernel 5.6, proc_create_data takes "proc_ops" and not "file_operations" now
