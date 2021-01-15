@@ -143,7 +143,7 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
 #ifdef CONFIG_RTL8188E
 	/*=== Realtek demoboard ===*/
 	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x8179), .driver_info = RTL8188E}, /* 8188EUS */
-	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x0179), .driver_info = RTL8188E}, /* 8188ETV */	
+	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x0179), .driver_info = RTL8188E}, /* 8188ETV */
 #endif
 
 #ifdef CONFIG_RTL8812A
@@ -152,9 +152,9 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
 	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x881A), .driver_info = RTL8812}, /* Default ID */
 	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x881B), .driver_info = RTL8812}, /* Default ID */
 	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x881C), .driver_info = RTL8812}, /* Default ID */
-	/*=== Customer ID ===*/	
-	{USB_DEVICE(0x2001, 0x330E), .driver_info = RTL8812}, /* D-Link - ALPHA */	
-	{USB_DEVICE(0x2001, 0x3313), .driver_info = RTL8812}, /* D-Link - ALPHA */	
+	/*=== Customer ID ===*/
+	{USB_DEVICE(0x2001, 0x330E), .driver_info = RTL8812}, /* D-Link - ALPHA */
+	{USB_DEVICE(0x2001, 0x3313), .driver_info = RTL8812}, /* D-Link - ALPHA */
 #endif
 
 #ifdef CONFIG_RTL8821A
@@ -164,7 +164,7 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
 	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x8822), .driver_info = RTL8821}, /* Default ID */
 	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0xA811) , .driver_info = RTL8821},/* Default ID */
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0x0820, 0xff, 0xff, 0xff), .driver_info = RTL8821}, /* 8821AU */
-	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0x0823, 0xff, 0xff, 0xff), .driver_info = RTL8821}, /* 8821AU */		
+	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0x0823, 0xff, 0xff, 0xff), .driver_info = RTL8821}, /* 8821AU */
 #endif
 
 #ifdef CONFIG_RTL8192E
@@ -187,8 +187,13 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
 
 #ifdef CONFIG_RTL8814A
 	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x8813), .driver_info = RTL8814A},
-	/*=== Customer ID ===*/	
-	{USB_DEVICE(0x2001, 0x331a), .driver_info = RTL8814A}, /* D-Link - D-Link */	
+	/*=== Customer ID ===*/
+	{USB_DEVICE(0x2001, 0x331a), .driver_info = RTL8814A}, /* D-Link - D-Link */
+	{USB_DEVICE(0x2357, 0x0106), .driver_info = RTL8814A}, /* TP-Link Archer T9UH v1 */
+	{USB_DEVICE(0x0846, 0x9054), .driver_info = RTL8814A}, /* NetGear, Inc. A7000 */
+	{USB_DEVICE(0x7392, 0xa833), .driver_info = RTL8814A}, /* Edimax AC1750 */
+	{USB_DEVICE(0x0b05, 0x1852), .driver_info = RTL8814A}, /* ASUSTek Computer, Inc. 802.11ac */
+	{USB_DEVICE(0x0846, 0x9054), .driver_info = RTL8814A}, /* NetGear, Inc. A7000 */
 #endif /* CONFIG_RTL8814A */
 
 #ifdef CONFIG_RTL8188F
@@ -204,7 +209,7 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
 #ifdef CONFIG_RTL8822B
 	/*=== Realtek demoboard ===*/
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xB82C, 0xff, 0xff, 0xff), .driver_info = RTL8822B}, /* Default ID for USB multi-function */
-	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xB812, 0xff, 0xff, 0xff), .driver_info = RTL8822B}, /* Default ID for USB Single-function, WiFi only */	
+	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xB812, 0xff, 0xff, 0xff), .driver_info = RTL8822B}, /* Default ID for USB Single-function, WiFi only */
 #endif /* CONFIG_RTL8822B */
 
 #ifdef CONFIG_RTL8723D
@@ -227,7 +232,7 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xC82A, 0xff, 0xff, 0xff), .driver_info = RTL8821C}, /* 8821CU */
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xC82B, 0xff, 0xff, 0xff), .driver_info = RTL8821C}, /* 8821CU */
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xC811, 0xff, 0xff, 0xff), .driver_info = RTL8821C}, /* 8811CU */
-	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0x8811, 0xff, 0xff, 0xff), .driver_info = RTL8821C}, /* 8811CU */	
+	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0x8811, 0xff, 0xff, 0xff), .driver_info = RTL8821C}, /* 8811CU */
 	/*=== Customer ID ===*/
 #endif
 
@@ -239,7 +244,7 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
 #ifdef CONFIG_RTL8822C
 	/*=== Realtek demoboard ===*/
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xC82C, 0xff, 0xff, 0xff), .driver_info = RTL8822C}, /* Default ID for USB multi-function */
-	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xC812, 0xff, 0xff, 0xff), .driver_info = RTL8822C}, /* Default ID for USB Single-function, WiFi only */	
+	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xC812, 0xff, 0xff, 0xff), .driver_info = RTL8822C}, /* Default ID for USB Single-function, WiFi only */
 #endif /* CONFIG_RTL8822C */
 
 #ifdef CONFIG_RTL8814B
@@ -1049,7 +1054,7 @@ static int rtw_resume(struct usb_interface *pusb_intf)
 	#ifdef CONFIG_AUTOSUSPEND
 	if (pwrpriv->bInternalAutoSuspend)
 		ret = rtw_resume_process(padapter);
-	else 
+	else
 	#endif
 	{
 		if (pwrpriv->wowlan_mode || pwrpriv->wowlan_ap_mode) {
