@@ -13,10 +13,9 @@ GDATE=${BDATE}_$(shell git rev-parse HEAD)
 	dh "$@" --with dkms,modaliases
 
 override_dh_install:
-	dh_install core hal include Kconfig Makefile os_dep platform debian/sign-modules debian/dkms-sign-module usr/src/rtl8814au-$(VERSION)/
+	dh_install core hal include Kconfig Makefile os_dep platform usr/src/rtl8814au-$(VERSION)/
+	dh_install debian/8814au.conf etc/modprobe.d/
 	find debian/rtl8814au-dkms/usr/src/rtl8814au-$(VERSION) -type f -exec chmod 644 {} \;
-	chmod +x debian/rtl8814au-dkms/usr/src/rtl8814au-$(VERSION)/dkms-sign-module
-	chmod +x debian/rtl8814au-dkms/usr/src/rtl8814au-$(VERSION)/sign-modules
 
 override_dh_dkms:
 	dh_dkms -V $(VERSION)

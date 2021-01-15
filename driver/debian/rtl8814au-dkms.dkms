@@ -1,7 +1,10 @@
 PACKAGE_NAME="rtl8814au"
 PACKAGE_VERSION="#MODULE_VERSION#"
 BUILT_MODULE_NAME[0]="8814au"
-MAKE="'make' clean; 'make' all KVER=$kernelver"
+MAKE="'make' clean; 'make' all KVER=$kernelver; kmodsign sha512 \
+    /var/lib/shim-signed/mok/MOK.priv \
+    /var/lib/shim-signed/mok/MOK.der \
+    8814au.ko"
 CLEAN="'make' clean"
 DEST_MODULE_LOCATION[0]="/updates/dkms"
 AUTOINSTALL="YES"
