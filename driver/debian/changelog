@@ -1,9 +1,10 @@
-rtl8814au (5.8.5-34085.20210114) UNRELEASED; urgency=medium
+rtl8814au (5.8.5-34085.20210811) UNRELEASED; urgency=medium
 
   * fix kernel 5.8
   * fix dkms kernel version
+  * fix kernel 5.10
 
- -- coolshou <coolshou2060@gmail.com>  Mon, 11 Jan 2021 10:20:50 +0800
+ -- coolshou <coolshou2060@gmail.com>  Wed, 11 Aug 2021 09:55:30 +0800
 
 rtl8814au (5.8.5-34085.20200406) unstable; urgency=medium
 
