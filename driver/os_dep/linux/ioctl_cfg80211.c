@@ -9896,7 +9896,7 @@ static struct cfg80211_ops rtw_cfg80211_ops = {
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37)) || defined(COMPAT_KERNEL_RELEASE)
 	.mgmt_tx = cfg80211_rtw_mgmt_tx,
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 8, 0))
-	.mgmt_frame_register = cfg80211_rtw_mgmt_frame_register,
+	//.mgmt_frame_register = cfg80211_rtw_mgmt_frame_register, //# for centOS, 4.18.0-305.19.1.el8_4.x86_64
 #else
 	.update_mgmt_frame_registrations = cfg80211_rtw_update_mgmt_frame_register,
 #endif
