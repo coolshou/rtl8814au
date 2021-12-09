@@ -355,7 +355,11 @@ static int napi_recv(_adapter *padapter, int budget)
 
 #ifdef CONFIG_RTW_GRO
 		if (pregistrypriv->en_gro) {
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 12, 0))
+			if (rtw_napi_gro_receive(&padapter->napi, pskb) != GRO_MERGED_FREE)
+#else
 			if (rtw_napi_gro_receive(&padapter->napi, pskb) != GRO_DROP)
+#endif
 				rx_ok = _TRUE;
 			goto next;
 		}
@@ -404,7 +408,7 @@ void dynamic_napi_th_chk (_adapter *adapter)
 	if (adapter->registrypriv.en_napi) {
 		struct dvobj_priv *dvobj;
 		struct registry_priv *registry;
-	
+
 		dvobj = adapter_to_dvobj(adapter);
 		registry = &adapter->registrypriv;
 		if (dvobj->traffic_stat.cur_rx_tp > registry->napi_threshold)
@@ -520,7 +524,7 @@ void rtw_os_recv_indicate_pkt(_adapter *padapter, _pkt *pkt, union recv_frame *r
 #ifdef CONFIG_RTW_NAPI
 #ifdef CONFIG_RTW_NAPI_DYNAMIC
 		if (!skb_queue_empty(&precvpriv->rx_napi_skb_queue)
-			&& !adapter_to_dvobj(padapter)->en_napi_dynamic			
+			&& !adapter_to_dvobj(padapter)->en_napi_dynamic
 			)
 			napi_recv(padapter, RTL_NAPI_WEIGHT);
 #endif
