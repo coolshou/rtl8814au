@@ -1,10 +1,20 @@
 PACKAGE_NAME="rtl8814au"
 PACKAGE_VERSION="#MODULE_VERSION#"
-BUILT_MODULE_NAME[0]="8814au"
-MAKE="'make' clean; 'make' all KVER=$kernelver; kmodsign sha512 \
-    /var/lib/shim-signed/mok/MOK.priv \
-    /var/lib/shim-signed/mok/MOK.der \
-    8814au.ko"
-CLEAN="'make' clean"
-DEST_MODULE_LOCATION[0]="/updates/dkms"
 AUTOINSTALL="YES"
+BUILT_MODULE_NAME[0]="8814au"
+DEST_MODULE_LOCATION[0]="/updates/dkms"
+
+# Find out how many CPU cores can be use if we pass appropriate -j option to make.
+# DKMS could use all cores on multicore systems to build the kernel module.
+num_cpu_cores()
+{
+  if [ -x /usr/bin/nproc ]; then
+    nproc
+  else
+    echo "1"
+  fi
+}
+
+MAKE="'make' -j$(num_cpu_cores) all KLIB=/lib/modules/$kernelver"
+CLEAN="'make' clean"
+
