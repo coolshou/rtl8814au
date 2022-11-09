@@ -14,11 +14,14 @@
  *****************************************************************************/
 #define _RTW_BR_EXT_C_
 
+#include <linux/version.h>
 #ifdef __KERNEL__
 	#include <linux/if_arp.h>
 	#include <net/ip.h>
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0))
 	#include <net/ipx.h>
 	#include <linux/atalk.h>
+#endif
 	#include <linux/udp.h>
 	#include <linux/if_pppox.h>
 #endif
@@ -168,7 +171,7 @@ static __inline__ void __nat25_generate_ipv4_network_addr(unsigned char *network
 	memcpy(networkAddr + 7, (unsigned char *)ipAddr, 4);
 }
 
-
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0))
 static __inline__ void __nat25_generate_ipx_network_addr_with_node(unsigned char *networkAddr,
 		unsigned int *ipxNetAddr, unsigned char *ipxNodeAddr)
 {
@@ -200,6 +203,7 @@ static __inline__ void __nat25_generate_apple_network_addr(unsigned char *networ
 	memcpy(networkAddr + 1, (unsigned char *)network, 2);
 	networkAddr[3] = *node;
 }
+#endif
 
 
 static __inline__ void __nat25_generate_pppoe_network_addr(unsigned char *networkAddr,
@@ -329,6 +333,7 @@ static __inline__ int __nat25_network_hash(unsigned char *networkAddr)
 
 		x = networkAddr[7] ^ networkAddr[8] ^ networkAddr[9] ^ networkAddr[10];
 
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0))
 		return x & (NAT25_HASH_SIZE - 1);
 	} else if (networkAddr[0] == NAT25_IPX) {
 		unsigned long x;
@@ -341,6 +346,7 @@ static __inline__ int __nat25_network_hash(unsigned char *networkAddr)
 		unsigned long x;
 
 		x = networkAddr[1] ^ networkAddr[2] ^ networkAddr[3];
+#endif
 
 		return x & (NAT25_HASH_SIZE - 1);
 	} else if (networkAddr[0] == NAT25_PPPOE) {
@@ -889,6 +895,7 @@ int nat25_db_handle(_adapter *priv, struct sk_buff *skb, int method)
 		}
 	}
 
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0))
 	/*---------------------------------------------------*/
 	/*         Handle IPX and Apple Talk frame          */
 	/*---------------------------------------------------*/
@@ -1109,6 +1116,7 @@ int nat25_db_handle(_adapter *priv, struct sk_buff *skb, int method)
 
 		return -1;
 	}
+#endif
 
 	/*---------------------------------------------------*/
 	/*                Handle PPPoE frame                */
