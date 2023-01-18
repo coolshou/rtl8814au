@@ -2217,14 +2217,17 @@ static int isFileReadable(const char *path, u32 *sz)
 {
 	struct file *fp;
 	int ret = 0;
+	#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 18, 0))//jimmy
 	mm_segment_t oldfs;
+	#endif
 	char buf;
 
 	fp = filp_open(path, O_RDONLY, 0);
 	if (IS_ERR(fp))
 		ret = PTR_ERR(fp);
 	else {
-		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
+		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0))//jimmy
+		#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
 			oldfs = force_uaccess_begin();
 		#else
 			oldfs = get_fs();
@@ -2244,7 +2247,8 @@ static int isFileReadable(const char *path, u32 *sz)
 			*sz = i_size_read(fp->f_dentry->d_inode);
 			#endif
 		}
-		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
+		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0))//jimmy
+		#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
 			force_uaccess_end(oldfs);
 		#else
 			set_fs(oldfs);
@@ -2264,14 +2268,17 @@ static int isFileReadable(const char *path, u32 *sz)
 static int retriveFromFile(const char *path, u8 *buf, u32 sz)
 {
 	int ret = -1;
+	#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 18, 0))//jimmy
 	mm_segment_t oldfs;
+	#endif
 	struct file *fp;
 
 	if (path && buf) {
 		ret = openFile(&fp, path, O_RDONLY, 0);
 		if (0 == ret) {
 			RTW_INFO("%s openFile path:%s fp=%p\n", __FUNCTION__, path , fp);
-			#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
+			#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0))//jimmy
+			#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
 				oldfs = force_uaccess_begin();
 			#else
 				oldfs = get_fs();
@@ -2282,7 +2289,8 @@ static int retriveFromFile(const char *path, u8 *buf, u32 sz)
 				#endif
             #endif
 			ret = readFile(fp, buf, sz);
-			#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
+			#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0))//jimmy
+			#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
 				force_uaccess_end(oldfs);
 			#else
 				set_fs(oldfs);
@@ -2310,14 +2318,17 @@ static int retriveFromFile(const char *path, u8 *buf, u32 sz)
 static int storeToFile(const char *path, u8 *buf, u32 sz)
 {
 	int ret = 0;
+	#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 18, 0))//jimmy
 	mm_segment_t oldfs;
+	#endif
 	struct file *fp;
 
 	if (path && buf) {
 		ret = openFile(&fp, path, O_CREAT | O_WRONLY, 0666);
 		if (0 == ret) {
 			RTW_INFO("%s openFile path:%s fp=%p\n", __FUNCTION__, path , fp);
-			#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
+			#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0))//jimmy
+			#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
 				oldfs = force_uaccess_begin();
 			#else
 				oldfs = get_fs();
@@ -2328,7 +2339,8 @@ static int storeToFile(const char *path, u8 *buf, u32 sz)
 				#endif
 			#endif
 			ret = writeFile(fp, buf, sz);
-			#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
+			#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0))//jimmy
+			#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0))//jimmy
 				force_uaccess_end(oldfs);
 			#else
 				set_fs(oldfs);
@@ -2417,7 +2429,7 @@ int rtw_readable_file_sz_chk(const char *path, u32 sz)
 
 	if (fsz > sz)
 		return _FALSE;
-	
+
 	return _TRUE;
 }
 
@@ -2692,7 +2704,9 @@ u64 rtw_division64(u64 x, u64 y)
 inline u32 rtw_random32(void)
 {
 #ifdef PLATFORM_LINUX
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 8, 0))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 0))
+	return get_random_u32();
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 8, 0))
 	return prandom_u32();
 #elif (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 18))
 	u32 random_int;
@@ -2902,7 +2916,7 @@ int map_readN(const struct map_t *map, u16 offset, u16 len, u8 *buf)
 			else
 				c_len = seg->sa + seg->len - offset;
 		}
-			
+
 		_rtw_memcpy(c_dst, c_src, c_len);
 	}
 
@@ -3083,7 +3097,7 @@ void dump_blacklist(void *sel, _queue *blist, const char *title)
 	if (rtw_end_of_queue_search(head, list) == _FALSE) {
 		if (title)
 			RTW_PRINT_SEL(sel, "%s:\n", title);
-	
+
 		while (rtw_end_of_queue_search(head, list) == _FALSE) {
 			ent = LIST_CONTAINOR(list, struct blacklist_ent, list);
 			list = get_next(list);
