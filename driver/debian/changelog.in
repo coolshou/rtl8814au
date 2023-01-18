@@ -1,8 +1,14 @@
 rtl8814au (#VERSION#.#DRIVER_BUILD_VERSION#) unstable; urgency=medium
 
-  * Fix kernel 5.6, proc_create_data takes "proc_ops" and not "file_operations" now
+  * Fix Kernel 5.18/5.19.2/6.0
 
  -- jimmy <jimmy@jimmy-alpha>  Thu, 01 Dec 2016 13:09:37 +0800
+
+rtl8814au (5.8.5-34085.20221111) unstable; urgency=medium
+
+  * Fix Kernel 5.17
+
+ -- coolshou <coolshou2060@gmail.com>  Fri, 11 Nov 2022 09:24:06 +0800
 
 rtl8814au (5.8.5-34085.20190824) unstable; urgency=medium
 
