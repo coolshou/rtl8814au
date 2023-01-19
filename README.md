@@ -4,7 +4,7 @@ Drivers for the rtl8814au chipset for wireless adapters (D-Link DWA-192 rev A1)
 # build & install
 ```
 git clone https://github.com/coolshou/rtl8814au.git
-cd driver
+cd rtl8814au/driver
 make
 sudo make install
 ```
@@ -12,10 +12,10 @@ sudo make install
 # debian dkms package (require dpkg-dev, dkms, dh-modaliases)
 ```
 sudo apt install  debhelper dpkg-dev dkms dh-modaliases
-cd driver
+cd rtl8814au/driver
 dpkg-buildpackage -b --no-sign
 cd ..
-dpkg -i rtl8814au-dkms_4.3.21.1-24835.20190115_all.deb
+dpkg -i rtl8814au-dkms_5.8.5.1-35583.20191029-20230118_all.deb
 ```
 
 
