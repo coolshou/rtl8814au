@@ -1,4 +1,4 @@
-rtl8814au (5.8.5-34085.20230118) unstable; urgency=medium
+rtl8814au (5.8.5.1-35583.20191029-20230118) unstable; urgency=medium
 
   * Fix Kernel 5.18/5.19.2/6.0
 

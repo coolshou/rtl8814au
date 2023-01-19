@@ -110,6 +110,7 @@ typedef struct _ADAPTER _adapter, ADAPTER, *PADAPTER;
 #endif
 #include <rtw_efuse.h>
 #include <rtw_version.h>
+#include <version_build.h>
 #include <rtw_odm.h>
 
 #ifdef CONFIG_PREALLOC_RX_SKB_BUFFER
