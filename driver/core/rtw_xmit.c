@@ -859,9 +859,9 @@ static void update_attrib_vcs_info(_adapter *padapter, struct xmit_frame *pxmitf
 #ifdef CONFIG_WMMPS_STA
 /*
  * update_attrib_trigger_frame_info
- * For Station mode, if a specific TID of driver setting and an AP support uapsd function, the data 
+ * For Station mode, if a specific TID of driver setting and an AP support uapsd function, the data
  * frame with corresponding TID will be a trigger frame when driver is in wmm power saving mode.
- * 
+ *
  * Arguments:
  * @padapter: _adapter pointer.
  * @pattrib: pkt_attrib pointer.
@@ -871,7 +871,7 @@ static void update_attrib_vcs_info(_adapter *padapter, struct xmit_frame *pxmitf
  */
 static void update_attrib_trigger_frame_info(_adapter *padapter, struct pkt_attrib *pattrib) {
 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-	struct pwrctrl_priv 	*pwrpriv = adapter_to_pwrctl(padapter); 
+	struct pwrctrl_priv 	*pwrpriv = adapter_to_pwrctl(padapter);
 	struct qos_priv 	*pqospriv = &pmlmepriv->qospriv;
 	u8 trigger_frame_en = 0;
 
@@ -1584,7 +1584,7 @@ get_sta_info:
 			}
 		}
 	}
-	
+
 	update_attrib_phy_info(padapter, pattrib, psta);
 
 	/* RTW_INFO("%s ==> mac_id(%d)\n",__FUNCTION__,pattrib->mac_id ); */
@@ -1607,7 +1607,7 @@ get_sta_info:
 
 #ifdef CONFIG_WMMPS_STA
 	update_attrib_trigger_frame_info(padapter, pattrib);
-#endif /* CONFIG_WMMPS_STA */	
+#endif /* CONFIG_WMMPS_STA */
 
 	/* pattrib->priority = 5; */ /* force to used VI queue, for testing */
 	pattrib->hw_ssn_sel = pxmitpriv->hw_ssn_seq_no;
@@ -1910,7 +1910,7 @@ s32 rtw_make_wlanhdr(_adapter *padapter , u8 *hdr, struct pkt_attrib *pattrib)
 				/* TBD: temporary set (rspi, eosp) = (0, 1) which means End MPSP */
 				set_rspi(qc, 0);
 				SetEOSP(qc, 1);
-				
+
 				set_mctrl_present(qc, 1);
 			}
 #endif
@@ -4458,7 +4458,13 @@ s32 rtw_monitor_xmit_entry(struct sk_buff *skb, struct net_device *ndev)
 	int len = skb->len, rtap_len;
 
 
-	rtw_mstat_update(MSTAT_TYPE_SKB, MSTAT_ALLOC_SUCCESS, skb->truesize);
+//	rtw_mstat_update(MSTAT_TYPE_SKB, MSTAT_ALLOC_SUCCESS, skb->truesize);
+
+#ifdef CONFIG_MONITOR_MODE_XMIT
+	int consume;
+#endif  /* CONFIG_MONITOR_MODE_XMIT */
+	if (likely(skb))
+		rtw_mstat_update(MSTAT_TYPE_SKB, MSTAT_ALLOC_SUCCESS, skb->truesize);
 
 #ifndef CONFIG_CUSTOMER_ALIBABA_GENERAL
 	if (unlikely(skb->len < sizeof(struct ieee80211_radiotap_header)))
@@ -4473,13 +4479,26 @@ s32 rtw_monitor_xmit_entry(struct sk_buff *skb, struct net_device *ndev)
 	if (unlikely(skb->len < rtap_len))
 		goto fail;
 
+#ifdef CONFIG_MONITOR_MODE_XMIT
+	len -= sizeof(struct ieee80211_radiotap_header);
+	rtap_len -= sizeof(struct ieee80211_radiotap_header);
+
+	while(rtap_len) {
+		consume = rtap_len > sizeof(dummybuf) ? sizeof(dummybuf) : rtap_len;
+		_rtw_pktfile_read(&pktfile, dummybuf, consume);
+		rtap_len -= consume;
+		len -= consume;
+	}
+#else /* CONFIG_MONITOR_MODE_XMIT */
+
 	if (rtap_len != 12) {
 		RTW_INFO("radiotap len (should be 14): %d\n", rtap_len);
 		goto fail;
 	}
 	_rtw_pktfile_read(&pktfile, dummybuf, rtap_len-sizeof(struct ieee80211_radiotap_header));
 	len = len - rtap_len;
-#endif
+#endif /* CONFIG_MONITOR_MODE_XMIT */
+#endif /* CONFIG_CUSTOMER_ALIBABA_GENERAL */
 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
 	if (pmgntframe == NULL) {
 		rtw_udelay_os(500);
@@ -4519,6 +4538,9 @@ s32 rtw_monitor_xmit_entry(struct sk_buff *skb, struct net_device *ndev)
 	dump_mgntframe(padapter, pmgntframe);
 
 fail:
+#ifdef CONFIG_MONITOR_MODE_XMIT
+	rtw_endofpktfile(&pktfile);
+#endif /* CONFIG_MONITOR_MODE_XMIT */
 	rtw_skb_free(skb);
 	return 0;
 }

@@ -2133,8 +2133,7 @@ BIP_exit:
 #ifndef PLATFORM_FREEBSD
 #if defined(CONFIG_TDLS)
 /* compress 512-bits */
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 8, 0))
-static int sha256_compress(struct sha256_state *md, unsigned char *buf)
+static int sha256_compress(struct _sha256_state *md, unsigned char *buf)
 {
 	u32 S[8], W[64], t0, t1;
 	u32 t;
@@ -2180,10 +2179,9 @@ static int sha256_compress(struct sha256_state *md, unsigned char *buf)
 		md->state[i] = md->state[i] + S[i];
 	return 0;
 }
-#endif
+
 /* Initialize the hash state */
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 8, 0))
-static void sha256_init(struct sha256_state *md)
+static void _sha256_init(struct _sha256_state *md)
 {
 	md->curlen = 0;
 	md->length = 0;
@@ -2196,7 +2194,7 @@ static void sha256_init(struct sha256_state *md)
 	md->state[6] = 0x1F83D9ABUL;
 	md->state[7] = 0x5BE0CD19UL;
 }
-#endif
+
 /**
    Process a block of memory though the hash
    @param md     The hash state
@@ -2204,8 +2202,7 @@ static void sha256_init(struct sha256_state *md)
    @param inlen  The length of the data (octets)
    @return CRYPT_OK if successful
 */
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 8, 0))
-static int sha256_process(struct sha256_state *md, unsigned char *in,
+static int sha256_process(struct _sha256_state *md, unsigned char *in,
 			  unsigned long inlen)
 {
 	unsigned long n;
@@ -2238,7 +2235,7 @@ static int sha256_process(struct sha256_state *md, unsigned char *in,
 
 	return 0;
 }
-#endif
+
 
 /**
    Terminate the hash to get the digest
@@ -2246,8 +2243,7 @@ static int sha256_process(struct sha256_state *md, unsigned char *in,
    @param out [out] The destination of the hash (32 bytes)
    @return CRYPT_OK if successful
 */
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 8, 0))
-static int sha256_done(struct sha256_state *md, unsigned char *out)
+static int sha256_done(struct _sha256_state *md, unsigned char *out)
 {
 	int i;
 
@@ -2285,7 +2281,7 @@ static int sha256_done(struct sha256_state *md, unsigned char *out)
 
 	return 0;
 }
-#endif
+
 /**
  * sha256_vector - SHA256 hash for data vector
  * @num_elem: Number of elements in the data vector
@@ -2294,14 +2290,13 @@ static int sha256_done(struct sha256_state *md, unsigned char *out)
  * @mac: Buffer for the hash
  * Returns: 0 on success, -1 of failure
  */
- #if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 8, 0))
 static int sha256_vector(size_t num_elem, u8 *addr[], size_t *len,
 			 u8 *mac)
 {
-	struct sha256_state ctx;
+	struct _sha256_state ctx;
 	size_t i;
 
-	sha256_init(&ctx);
+	_sha256_init(&ctx);
 	for (i = 0; i < num_elem; i++)
 		if (sha256_process(&ctx, addr[i], len[i]))
 			return -1;
@@ -2309,7 +2304,6 @@ static int sha256_vector(size_t num_elem, u8 *addr[], size_t *len,
 		return -1;
 	return 0;
 }
-#endif
 
 static u8 os_strlen(const char *s)
 {
@@ -2350,7 +2344,6 @@ static int os_memcmp(const void *s1, const void *s2, u8 n)
  * @mac: Buffer for the hash (32 bytes)
  */
 #if defined(CONFIG_TDLS)
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 8, 0))
 static void hmac_sha256_vector(u8 *key, size_t key_len, size_t num_elem,
 			       u8 *addr[], size_t *len, u8 *mac)
 {
@@ -2412,7 +2405,6 @@ static void hmac_sha256_vector(u8 *key, size_t key_len, size_t num_elem,
 	_len[1] = 32;
 	sha256_vector(2, _addr, _len, mac);
 }
-#endif
 #endif /* CONFIG_TDLS */
 #endif /* PLATFORM_FREEBSD */
 /**
@@ -2430,7 +2422,6 @@ static void hmac_sha256_vector(u8 *key, size_t key_len, size_t num_elem,
  */
 #ifndef PLATFORM_FREEBSD /* Baron */
 #if defined(CONFIG_TDLS)
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 8, 0))
 static void sha256_prf(u8 *key, size_t key_len, char *label,
 		       u8 *data, size_t data_len, u8 *buf, size_t buf_len)
 {
@@ -2467,7 +2458,6 @@ static void sha256_prf(u8 *key, size_t key_len, char *label,
 		counter++;
 	}
 }
-#endif
 #endif
 #endif /* PLATFORM_FREEBSD Baron */
 

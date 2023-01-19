@@ -223,7 +223,6 @@ int rtw_bss_is_candidate_mesh_peer(WLAN_BSSID_EX *self, WLAN_BSSID_EX *target, u
 		}
 	}
 
-
 	/* BSSBasicMCSSet */
 
 	/* 802.1X connected to AS ? */
@@ -3083,7 +3082,7 @@ void rtw_mesh_init_mesh_info(_adapter *adapter)
 
 	_rtw_init_queue(&minfo->mpath_tx_queue);
 	tasklet_init(&minfo->mpath_tx_tasklet
-		, (void(*)(unsigned long))mpath_tx_tasklet_hdl
+		, (void(*))mpath_tx_tasklet_hdl
 		, (unsigned long)adapter);
 
 	rtw_mrc_init(adapter);

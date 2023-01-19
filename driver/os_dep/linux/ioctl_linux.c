@@ -3202,7 +3202,7 @@ static int rtw_wx_get_nick(struct net_device *dev,
 	if (extra) {
 		wrqu->data.length = 14;
 		wrqu->data.flags = 1;
-		_rtw_memcpy(extra, "<WIFI@REALTEK>", 14);
+		_rtw_memcpy(extra, "WIFI@RTL8814AU", 14);
 	}
 
 	/* rtw_signal_process(pid, SIGUSR1); */ /* for test */
@@ -12385,7 +12385,8 @@ static struct iw_statistics *rtw_get_wireless_stats(struct net_device *dev)
 #endif
 
 #ifdef CONFIG_WIRELESS_EXT
-struct iw_handler_def rtw_handlers_def = {
+struct iw_handler_def rtw_handlers_def =
+{
 	.standard = rtw_handlers,
 	.num_standard = sizeof(rtw_handlers) / sizeof(iw_handler),
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 33)) || defined(CONFIG_WEXT_PRIV)

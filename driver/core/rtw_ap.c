@@ -741,7 +741,11 @@ void	expire_timeout_chk(_adapter *padapter)
 
 			RTW_INFO(FUNC_ADPT_FMT" asoc expire "MAC_FMT", state=0x%x\n"
 				, FUNC_ADPT_ARG(padapter), MAC_ARG(psta->cmn.mac_addr), psta->state);
+			#ifdef CONFIG_ACTIVE_KEEP_ALIVE_CHECK
 			updated |= ap_free_sta(padapter, psta, _FALSE, WLAN_REASON_DEAUTH_LEAVING, _FALSE);
+			#else
+			updated |= ap_free_sta(padapter, psta, _FALSE, WLAN_REASON_DEAUTH_LEAVING, _TRUE);
+			#endif
 			#ifdef CONFIG_RTW_MESH
 			if (MLME_IS_MESH(padapter))
 				rtw_mesh_expire_peer(padapter, sta_addr);
@@ -1786,10 +1790,7 @@ chbw_decision:
 		if (!(ifbmp_ch_changed & BIT(i)) || !pdvobj->padapters[i])
 			continue;
 
-		/* pure AP is not needed*/
-		if (MLME_IS_GO(pdvobj->padapters[i])
-			|| MLME_IS_MESH(pdvobj->padapters[i])
-		) {
+		{
 			u8 ht_option = 0;
 
 			#ifdef CONFIG_80211N_HT
@@ -1800,7 +1801,8 @@ chbw_decision:
 				, pdvobj->padapters[i]->mlmeextpriv.cur_channel
 				, pdvobj->padapters[i]->mlmeextpriv.cur_bwmode
 				, pdvobj->padapters[i]->mlmeextpriv.cur_ch_offset
-				, ht_option);
+				, ht_option
+				, 0);
 		}
 	}
 #endif /* defined(CONFIG_IOCTL_CFG80211) && (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 5, 0)) */

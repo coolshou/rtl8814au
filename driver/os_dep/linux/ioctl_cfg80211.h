@@ -168,10 +168,6 @@ struct rtw_wdev_priv {
 	bool block_scan;
 	bool power_mgmt;
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5,8,0)
-	u32 mgmt_mask;
-#endif
-
 	/* report mgmt_frame registered */
 	u16 report_mgmt;
 
@@ -411,7 +407,7 @@ void rtw_cfg80211_deinit_rfkill(struct wiphy *wiphy);
 #endif
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 5, 0))
-u8 rtw_cfg80211_ch_switch_notify(_adapter *adapter, u8 ch, u8 bw, u8 offset, u8 ht);
+u8 rtw_cfg80211_ch_switch_notify(_adapter *adapter, u8 ch, u8 bw, u8 offset, u8 ht, bool started);
 #endif
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 26)) && (LINUX_VERSION_CODE < KERNEL_VERSION(4, 7, 0))

@@ -25,7 +25,7 @@ s32	rtl8814au_init_xmit_priv(_adapter *padapter)
 
 #ifdef PLATFORM_LINUX
 	tasklet_init(&pxmitpriv->xmit_tasklet,
-		     (void(*)(unsigned long))rtl8814au_xmit_tasklet,
+		     (void(*))rtl8814au_xmit_tasklet,
 		     (unsigned long)padapter);
 #endif
 #ifdef CONFIG_TX_EARLY_MODE
@@ -115,9 +115,9 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz , u8 ba
 		SET_TX_DESC_EN_HWEXSEQ_8814A(ptxdesc, 0);
 		SET_TX_DESC_DISQSELSEQ_8814A(ptxdesc, 1);
 		SET_TX_DESC_HW_SSN_SEL_8814A(ptxdesc, 0);
-	} else
+	} else {
 		SET_TX_DESC_SEQ_8814A(ptxdesc, pattrib->seqnum);
-
+	}
 	if ((pxmitframe->frame_tag & 0x0f) == DATA_FRAMETAG) {
 		/* RTW_INFO("pxmitframe->frame_tag == DATA_FRAMETAG\n");		 */
 
