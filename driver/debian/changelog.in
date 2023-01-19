@@ -1,4 +1,4 @@
-rtl8814au (#VERSION#.#DRIVER_BUILD_VERSION#) unstable; urgency=medium
+rtl8814au (#VERSION#-#DRIVER_BUILD_VERSION#) unstable; urgency=medium
 
   * Fix Kernel 5.18/5.19.2/6.0
 
