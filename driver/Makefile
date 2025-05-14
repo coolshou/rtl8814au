@@ -20,9 +20,31 @@ EXTRA_CFLAGS += -Wno-implicit-fallthrough
 EXTRA_CFLAGS += -Wno-return-type
 EXTRA_CFLAGS += -Wno-discarded-qualifiers
 
+# Activates Concurrent Mode if uncommented
+#EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
+
+# Sets wireless regulatory (REGD) sourse to OS
+EXTRA_CFLAGS += -DCONFIG_REGD_SRC_FROM_OS
+# May be needed to ensure all channels are scanned
+EXTRA_CFLAGS += -DCONFIG_FORCE_SW_CHANNEL_PLAN
+
+# LED Control
+EXTRA_CFLAGS += -DCONFIG_LED_CONTROL
+EXTRA_CFLAGS += -DCONFIG_SW_LED -DCONFIG_RTW_SW_LED
+EXTRA_CFLAGS += -DCONFIG_LED_ENABLE
+
 # gcc-12
 EXTRA_CFLAGS += -Wno-address
 EXTRA_CFLAGS += -Wframe-larger-than=1648
+EXTRA_CFLAGS += -Wno-cast-function-type
+
+# gcc-13
+EXTRA_CFLAGS += -Wno-enum-int-mismatch
+EXTRA_CFLAGS += -Wno-stringop-overread
+EXTRA_CFLAGS += -Wno-enum-conversion
+EXTRA_CFLAGS += -Wno-int-in-bool-context
+EXTRA_CFLAGS += -Wno-missing-prototypes
+EXTRA_CFLAGS += -Wno-missing-declarations
 
 GCC_VER_49 := $(shell echo `$(CC) -dumpversion | cut -f1-2 -d.` \>= 4.9 | bc )
 ifeq ($(GCC_VER_49),1)
@@ -135,6 +157,7 @@ CONFIG_RTW_SDIO_PM_KEEP_POWER = y
 ###################### MP HW TX MODE FOR VHT #######################
 CONFIG_MP_VHT_HW_TX_MODE = n
 ###################### Platform Related #######################
+CONFIG_PLATFORM_AUTODETECT = y
 CONFIG_PLATFORM_I386_PC = y
 CONFIG_PLATFORM_ARM_RPI = n
 CONFIG_PLATFORM_ARM64_RPI = n
@@ -1318,17 +1341,39 @@ endif
 
 EXTRA_CFLAGS += -DDM_ODM_SUPPORT_TYPE=0x04
 
-ifeq ($(CONFIG_PLATFORM_I386_PC), y)
+# *** AUTODETECT ***
+ifeq ($(CONFIG_PLATFORM_AUTODETECT), y)
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
 EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211 -DRTW_USE_CFG80211_STA_EVENT
-SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/armv.l/arm/ -e s/aarch64/arm64/)
+
+#SUBARCH := $(shell uname -m)
+SUBARCH := $(shell uname -m | sed -e "s/i.86/i386/; s/ppc/powerpc/; s/armv.l/arm/; s/aarch64/arm64/; s/riscv.*/riscv/;")
 ARCH ?= $(SUBARCH)
+
 CROSS_COMPILE ?=
-KVER  := $(shell uname -r)
+KVER ?= $(shell uname -r)
 KSRC := /lib/modules/$(KVER)/build
 MODDESTDIR := /lib/modules/$(KVER)/kernel/drivers/net/wireless/
 INSTALL_PREFIX :=
 STAGINGMODDIR := /lib/modules/$(KVER)/kernel/drivers/staging
+
+# Platform Specific Flags may be Needed in some Situations
+#EXTRA_CFLAGS += -DCONFIG_PLATFORM_ANDROID
+# End of Platform Specific Flags
+endif
+# *** End AUTODETECT ***
+
+ifeq ($(CONFIG_PLATFORM_I386_PC), y)
+EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
+EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211 -DRTW_USE_CFG80211_STA_EVENT
+
+SUBARCH := $(shell uname -m | sed -e s/i.86/i386/)
+ARCH ?= $(SUBARCH)
+CROSS_COMPILE ?=
+KVER := $(shell uname -r)
+KSRC := /lib/modules/$(KVER)/build
+MODDESTDIR := /lib/modules/$(KVER)/kernel/drivers/net/wireless/
+INSTALL_PREFIX :=
 endif
 
 ### START RASPBERRY PI OS SUPPORT
