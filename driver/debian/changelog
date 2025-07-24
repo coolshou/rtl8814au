@@ -1,4 +1,10 @@
-rtl8814au (5.8.5.1-35583.20191029-20240710) unstable; urgency=medium
+rtl8814au (5.8.5.1-35583.20191029-20250724) UNRELEASED; urgency=medium
+
+  * Fix kernel 6.14
+
+ -- coolshou <coolshou2060@gmail.com>  Thu, 24 Jul 2025 11:57:58 +0800
+
+rtl8814au (5.8.5.1-35583.20191029-20250513) unstable; urgency=medium
 
   * Fix kernel 6.8
 
