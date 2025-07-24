@@ -422,6 +422,8 @@ u8 rtw_cfg80211_ch_switch_notify(_adapter *adapter, u8 ch, u8 bw, u8 offset,
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0))
 	if (started) {
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0))
+
 		/* --- cfg80211_ch_switch_started_notfiy() ---
 		 *  A new parameter, bool quiet, is added from Linux kernel v5.11,
 		 *  to see if block-tx was requested by the AP. since currently,
@@ -429,12 +431,16 @@ u8 rtw_cfg80211_ch_switch_notify(_adapter *adapter, u8 ch, u8 bw, u8 offset,
 		 *  the quiet is set to false here first. May need to refine it if
 		 *  called by others with block-tx.
 		 */
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 3, 0)) && (LINUX_VERSION_CODE < KERNEL_VERSION(6, 9, 0))
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 0))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 3, 0) && (LINUX_VERSION_CODE < KERNEL_VERSION(6, 9, 0)))
 		cfg80211_ch_switch_started_notify(adapter->pnetdev, &chdef, 0, 0, false, 0);
-#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 0))
+#else
 		cfg80211_ch_switch_started_notify(adapter->pnetdev, &chdef, 0, 0, false);
-#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)) || (RHEL_RELEASE_CODE >= RHEL_RELEASE_VERSION(8,0))
+#endif
+#else
 		cfg80211_ch_switch_started_notify(adapter->pnetdev, &chdef, 0, false);
+#endif
 #else
 		cfg80211_ch_switch_started_notify(adapter->pnetdev, &chdef, 0);
 #endif
@@ -4214,6 +4220,9 @@ static int cfg80211_rtw_set_txpower(struct wiphy *wiphy,
 static int cfg80211_rtw_get_txpower(struct wiphy *wiphy,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 8, 0))
 	struct wireless_dev *wdev,
+#endif
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 14, 0))
+ 	unsigned int link_id,
 #endif
 	int *dbm)
 {
